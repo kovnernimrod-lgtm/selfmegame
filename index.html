@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מה עושים כשמאבדים וויסות?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #FFF9E5 0%, #FFE8CC 100%);
+            min-height: 100vh;
+            padding: 20px;
+            user-select: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #E91E63;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-weight: 800;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FF6F91 0%, #8E62D9 50%, #00BFA6 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .splash-screen h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 30px;
+            animation: bounce 1s infinite;
+        }
+
+        .splash-screen .btn {
+            background: white;
+            color: #E91E63;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .splash-screen .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Instructions Screen */
+        .instructions-screen {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.15);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .instructions-screen h2 {
+            color: #E91E63;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .instructions-list {
+            font-size: 1.2em;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 15px;
+            padding-right: 20px;
+        }
+
+        .category-preview {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .category-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .category-box.self-do {
+            background: linear-gradient(135deg, #00BFA6 0%, #00897B 100%);
+        }
+
+        .category-box.self-up {
+            background: linear-gradient(135deg, #8E62D9 0%, #6A3FB5 100%);
+        }
+
+        .category-box.self-view {
+            background: linear-gradient(135deg, #FF6F91 0%, #E91E63 100%);
+        }
+
+        .category-box h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .category-box p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-family: 'Heebo', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #8E62D9 0%, #6A3FB5 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #00BFA6 0%, #00897B 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Team Setup */
+        .team-setup {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.15);
+        }
+
+        .team-setup h2 {
+            color: #E91E63;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .team-count {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .team-count button {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            border-radius: 50%;
+            border: 3px solid #E91E63;
+            background: white;
+            color: #E91E63;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .team-count button.active {
+            background: #E91E63;
+            color: white;
+        }
+
+        .team-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+
+        .team-input-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .team-input-group label {
+            font-weight: 700;
+            font-size: 1.2em;
+            min-width: 100px;
+        }
+
+        .team-input-group input {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 3px solid #E91E63;
+            border-radius: 15px;
+            font-family: 'Heebo', sans-serif;
+            text-align: right;
+        }
+
+        /* Game Screen */
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .game-header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .turn-indicator {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #E91E63;
+        }
+
+        .progress {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: linear-gradient(135deg, #F8BBD0 0%, #F48FB1 100%);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .card-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 250px;
+            position: relative;
+        }
+
+        .statement-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            font-size: 1.5em;
+            font-weight: 500;
+            text-align: center;
+            min-width: 300px;
+            max-width: 600px;
+            cursor: move;
+            transition: all 0.3s ease;
+            border: 4px solid transparent;
+        }
+
+        .statement-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+
+        .statement-card.shake {
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .drawers {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .drawer {
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border: 5px solid transparent;
+        }
+
+        .drawer.drag-over {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .drawer.correct {
+            border-color: #27AE60;
+            animation: pulse 0.8s ease;
+        }
+
+        .drawer.incorrect {
+            border-color: #EB5757;
+            animation: pulse 0.8s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .drawer-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .drawer-title {
+            font-size: 1.8em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .drawer.self-do .drawer-title {
+            background: linear-gradient(135deg, #00BFA6 0%, #00897B 100%);
+        }
+
+        .drawer.self-up .drawer-title {
+            background: linear-gradient(135deg, #8E62D9 0%, #6A3FB5 100%);
+        }
+
+        .drawer.self-view .drawer-title {
+            background: linear-gradient(135deg, #FF6F91 0%, #E91E63 100%);
+        }
+
+        .drawer-subtitle {
+            font-size: 0.95em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .drawer-items {
+            min-height: 150px;
+            padding: 15px;
+            background: #F5F5F5;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .drawer-item {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-right: 4px solid;
+        }
+
+        .drawer.self-do .drawer-item {
+            border-right-color: #00BFA6;
+        }
+
+        .drawer.self-up .drawer-item {
+            border-right-color: #8E62D9;
+        }
+
+        .drawer.self-view .drawer-item {
+            border-right-color: #FF6F91;
+        }
+
+        /* Results Screen */
+        .results-screen {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+
+        .results-screen h2 {
+            color: #E91E63;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .winner {
+            font-size: 2em;
+            color: #00BFA6;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 20px;
+        }
+
+        .results-table {
+            margin: 30px auto;
+            max-width: 600px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #F5F5F5;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        .result-row:nth-child(1) {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+            color: white;
+            font-weight: 800;
+        }
+
+        .result-row:nth-child(2) {
+            background: linear-gradient(135deg, #C0C0C0 0%, #9E9E9E 100%);
+            color: white;
+            font-weight: 700;
+        }
+
+        .result-row:nth-child(3) {
+            background: linear-gradient(135deg, #CD7F32 0%, #A0522D 100%);
+            color: white;
+            font-weight: 700;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px;
+            background: linear-gradient(135deg, #F8BBD0 0%, #F48FB1 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .mute-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #E91E63;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .mute-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .statement-card {
+                font-size: 1.2em;
+                padding: 25px;
+                min-width: 250px;
+            }
+
+            .drawer {
+                min-width: 100%;
+            }
+
+            .drawers {
+                flex-direction: column;
+            }
+
+            .instructions-screen,
+            .team-setup,
+            .results-screen {
+                padding: 25px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        /* Touch support for mobile */
+        @media (hover: none) {
+            .statement-card {
+                cursor: pointer;
+            }
+        }
+
+        .feedback-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: 800;
+            padding: 30px 60px;
+            border-radius: 20px;
+            z-index: 1000;
+            animation: feedbackPop 1s ease;
+            pointer-events: none;
+        }
+
+        .feedback-text.success {
+            background: #27AE60;
+            color: white;
+        }
+
+        .feedback-text.error {
+            background: #EB5757;
+            color: white;
+        }
+
+        @keyframes feedbackPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mute Button -->
+    <button class="mute-btn" id="muteBtn" title="השתק צלילים">🔊</button>
+
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <h1>🎯 מה עושים כשמאבדים וויסות? 🎯</h1>
+        <button class="btn" onclick="showInstructions()">התחל</button>
+    </div>
+
+    <!-- Instructions Screen -->
+    <div class="container hidden" id="instructionsScreen">
+        <div class="instructions-screen">
+            <h2>📚 איך משחקים?</h2>
+            <ol class="instructions-list">
+                <li><strong>מיון היגדים:</strong> בכל תור מופיע היגד אחד. גררו אותו למגירה המתאימה</li>
+                <li><strong>משוב מיידי:</strong>
+                    <ul>
+                        <li>✅ תשובה נכונה – צליל הצלחה והמסגרת תיצבע בירוק (+5 נקודות)</li>
+                        <li>❌ תשובה לא נכונה – צליל שגיאה, המסגרת תיצבע באדום והכרטיס יחזור (-2 נקודות)</li>
+                    </ul>
+                </li>
+                <li><strong>ממשיכים</strong> עד שמסווגים את כל ההיגדים</li>
+            </ol>
+
+            <div class="category-preview">
+                <div class="category-box self-do">
+                    <h3>SELF-DO</h3>
+                    <p>כלים פיזיים להרגעה</p>
+                </div>
+                <div class="category-box self-up">
+                    <h3>SELF-UP</h3>
+                    <p>מחשבות מחזקות</p>
+                </div>
+                <div class="category-box self-view">
+                    <h3>SELF-VIEW</h3>
+                    <p>התבוננות מחדש</p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showTeamSetup()">התחל משחק</button>
+                <button class="btn btn-secondary" onclick="startSinglePlayer()">משחק בודד</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Setup Screen -->
+    <div class="container hidden" id="teamSetupScreen">
+        <div class="team-setup">
+            <h2>👥 הגדרת קבוצות</h2>
+            
+            <div class="team-count">
+                <button onclick="setTeamCount(1)">1</button>
+                <button onclick="setTeamCount(2)" class="active">2</button>
+                <button onclick="setTeamCount(3)">3</button>
+            </div>
+
+            <div class="team-inputs" id="teamInputs">
+                <div class="team-input-group">
+                    <label>קבוצה 1:</label>
+                    <input type="text" id="team1Name" value="קבוצה 1" />
+                </div>
+                <div class="team-input-group">
+                    <label>קבוצה 2:</label>
+                    <input type="text" id="team2Name" value="קבוצה 2" />
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-success" onclick="startGame()">התחל לשחק!</button>
+                <button class="btn btn-secondary" onclick="showInstructions()">חזרה</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div class="container hidden" id="gameScreen">
+        <h1>🎯 מה עושים כשמאבדים וויסות?</h1>
+        
+        <div class="game-screen">
+            <div class="game-header">
+                <div class="turn-indicator" id="turnIndicator">תור של: קבוצה 1</div>
+                <div class="progress" id="progress">0 / 8</div>
+                <div class="scoreboard" id="scoreboard"></div>
+            </div>
+
+            <div class="card-area">
+                <div class="statement-card" id="statementCard" draggable="true">
+                    טוען היגד...
+                </div>
+            </div>
+
+            <div class="drawers">
+                <div class="drawer self-do" data-category="SELF-DO">
+                    <div class="drawer-header">
+                        <div class="drawer-title">SELF-DO</div>
+                        <div class="drawer-subtitle">כלים פיזיים להרגעה</div>
+                    </div>
+                    <div class="drawer-items" id="drawerDo"></div>
+                </div>
+
+                <div class="drawer self-up" data-category="SELF-UP">
+                    <div class="drawer-header">
+                        <div class="drawer-title">SELF-UP</div>
+                        <div class="drawer-subtitle">מחשבות מחזקות</div>
+                    </div>
+                    <div class="drawer-items" id="drawerUp"></div>
+                </div>
+
+                <div class="drawer self-view" data-category="SELF-VIEW">
+                    <div class="drawer-header">
+                        <div class="drawer-title">SELF-VIEW</div>
+                        <div class="drawer-subtitle">התבוננות מחדש</div>
+                    </div>
+                    <div class="drawer-items" id="drawerView"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="container hidden" id="resultsScreen">
+        <div class="results-screen">
+            <h2>🎉 המשחק הסתיים! 🎉</h2>
+            <div class="winner" id="winner"></div>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-value" id="totalStatements">24</span>
+                    <span class="stat-label">סך היגדים</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="correctAnswers">0</span>
+                    <span class="stat-label">תשובות נכונות</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-value" id="successRate">0%</span>
+                    <span class="stat-label">אחוז הצלחה</span>
+                </div>
+            </div>
+
+            <div class="results-table" id="resultsTable"></div>
+
+            <div class="button-group">
+                <button class="btn btn-success" onclick="location.reload()">משחק חדש</button>
+                <button class="btn btn-secondary" onclick="exportResults()">ייצא תוצאות (CSV)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game Data from Google Sheets
+        const gameData = [
+            { text: "הליכה", category: "SELF-DO" },
+            { text: "משחק כדור עם חבר", category: "SELF-DO" },
+            { text: "ללוש פלסטלינה / סליים", category: "SELF-DO" },
+            { text: "תרגילי נשימה", category: "SELF-DO" },
+            { text: "תרגילי תנועה עם הגוף", category: "SELF-DO" },
+            { text: "כדור לשחרור לחץ", category: "SELF-DO" },
+            { text: "מתיחות לגוף", category: "SELF-DO" },
+            { text: "כתיבה וצביעה", category: "SELF-DO" },
+            { text: "אני יכול/ה", category: "SELF-UP" },
+            { text: "אני אצליח להתמודד", category: "SELF-UP" },
+            { text: "אני טוב/ה", category: "SELF-UP" },
+            { text: "אני יכול/ה להתגבר", category: "SELF-UP" },
+            { text: "אני מוגנ/ת", category: "SELF-UP" },
+            { text: "אני במקום בטוח", category: "SELF-UP" },
+            { text: "אני יודע/ת לבקש עזרה", category: "SELF-UP" },
+            { text: "יש מי שיעזור לי", category: "SELF-UP" },
+            { text: "מה עשיתי כדי לסייע להתמודד?", category: "SELF-VIEW" },
+            { text: "זה תלוי רק בי?", category: "SELF-VIEW" },
+            { text: "מה הצליח לי?", category: "SELF-VIEW" },
+            { text: "פעולה שעשיתי שעזרה באירוע?", category: "SELF-VIEW" },
+            { text: "למדתי ועשיתי משהו אחרת מפעם קודמת?", category: "SELF-VIEW" },
+            { text: "תמכתי במישהו?", category: "SELF-VIEW" },
+            { text: "הצלחתי לבקש עזרה?", category: "SELF-VIEW" },
+            { text: "האם הכל היה בשליטתי?", category: "SELF-VIEW" }
+        ];
+
+        // Game State
+        let gameState = {
+            teams: [],
+            currentTeamIndex: 0,
+            statements: [],
+            currentStatementIndex: 0,
+            completedStatements: 0,
+            isMuted: false,
+            correctCount: 0,
+            incorrectCount: 0,
+            startTime: null
+        };
+
+        // Sound Effects
+        const sounds = {
+            success: new Audio('data:audio/wav;base64,UklGRhYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQIAAAA='),
+            fail: new Audio('data:audio/wav;base64,UklGRhYAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQIAAAA=')
+        };
+
+        // Initialize
+        function init() {
+            loadFromLocalStorage();
+        }
+
+        // Shuffle array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Show Instructions
+        function showInstructions() {
+            document.getElementById('splashScreen').classList.add('hidden');
+            document.getElementById('instructionsScreen').classList.remove('hidden');
+            document.getElementById('teamSetupScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+        }
+
+        // Show Team Setup
+        function showTeamSetup() {
+            document.getElementById('instructionsScreen').classList.add('hidden');
+            document.getElementById('teamSetupScreen').classList.remove('hidden');
+        }
+
+        // Set Team Count
+        let selectedTeamCount = 2;
+        function setTeamCount(count) {
+            selectedTeamCount = count;
+            
+            // Update button states
+            const buttons = document.querySelectorAll('.team-count button');
+            buttons.forEach((btn, index) => {
+                if (index + 1 === count) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update inputs
+            const container = document.getElementById('teamInputs');
+            container.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                container.innerHTML += `
+                    <div class="team-input-group">
+                        <label>קבוצה ${i}:</label>
+                        <input type="text" id="team${i}Name" value="קבוצה ${i}" />
+                    </div>
+                `;
+            }
+        }
+
+        // Start Single Player
+        function startSinglePlayer() {
+            gameState.teams = [{ name: 'שחקן בודד', score: 0 }];
+            initGame();
+        }
+
+        // Start Game
+        function startGame() {
+            gameState.teams = [];
+            for (let i = 1; i <= selectedTeamCount; i++) {
+                const name = document.getElementById(`team${i}Name`).value || `קבוצה ${i}`;
+                gameState.teams.push({ name, score: 0 });
+            }
+            initGame();
+        }
+
+        // Initialize Game
+        function initGame() {
+            gameState.statements = shuffleArray(gameData);
+            gameState.currentStatementIndex = 0;
+            gameState.currentTeamIndex = 0;
+            gameState.completedStatements = 0;
+            gameState.correctCount = 0;
+            gameState.incorrectCount = 0;
+            gameState.startTime = Date.now();
+
+            document.getElementById('teamSetupScreen').classList.add('hidden');
+            document.getElementById('instructionsScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            updateScoreboard();
+            showNextStatement();
+            setupDragAndDrop();
+            saveToLocalStorage();
+        }
+
+        // Update Scoreboard
+        function updateScoreboard() {
+            const scoreboard = document.getElementById('scoreboard');
+            scoreboard.innerHTML = '';
+            
+            gameState.teams.forEach(team => {
+                const scoreItem = document.createElement('div');
+                scoreItem.className = 'score-item';
+                scoreItem.textContent = `${team.name}: ${team.score}`;
+                scoreboard.appendChild(scoreItem);
+            });
+
+            // Update turn indicator
+            if (gameState.teams.length > 1) {
+                document.getElementById('turnIndicator').textContent = 
+                    `תור של: ${gameState.teams[gameState.currentTeamIndex].name}`;
+            } else {
+                document.getElementById('turnIndicator').textContent = 'משחק בודד';
+            }
+
+            // Update progress
+            document.getElementById('progress').textContent = 
+                `${gameState.completedStatements} / ${gameState.statements.length}`;
+        }
+
+        // Show Next Statement
+        function showNextStatement() {
+            if (gameState.currentStatementIndex >= gameState.statements.length) {
+                showResults();
+                return;
+            }
+
+            const statement = gameState.statements[gameState.currentStatementIndex];
+            const card = document.getElementById('statementCard');
+            card.textContent = statement.text;
+            card.dataset.category = statement.category;
+            
+            // Remove any previous classes
+            card.classList.remove('shake');
+        }
+
+        // Setup Drag and Drop
+        function setupDragAndDrop() {
+            const card = document.getElementById('statementCard');
+            const drawers = document.querySelectorAll('.drawer');
+
+            // Drag events for card
+            card.addEventListener('dragstart', (e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                card.classList.add('dragging');
+            });
+
+            card.addEventListener('dragend', (e) => {
+                card.classList.remove('dragging');
+                drawers.forEach(d => d.classList.remove('drag-over'));
+            });
+
+            // Touch support for mobile
+            let touchStartX, touchStartY;
+            card.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                card.classList.add('dragging');
+            });
+
+            card.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                card.style.position = 'fixed';
+                card.style.left = touch.clientX - 150 + 'px';
+                card.style.top = touch.clientY - 50 + 'px';
+                card.style.zIndex = '1000';
+            });
+
+            card.addEventListener('touchend', (e) => {
+                const touch = e.changedTouches[0];
+                const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                const drawer = element?.closest('.drawer');
+                
+                card.style.position = '';
+                card.style.left = '';
+                card.style.top = '';
+                card.style.zIndex = '';
+                card.classList.remove('dragging');
+
+                if (drawer) {
+                    handleDrop(drawer);
+                }
+            });
+
+            // Drop events for drawers
+            drawers.forEach(drawer => {
+                drawer.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    drawer.classList.add('drag-over');
+                });
+
+                drawer.addEventListener('dragleave', () => {
+                    drawer.classList.remove('drag-over');
+                });
+
+                drawer.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    drawer.classList.remove('drag-over');
+                    handleDrop(drawer);
+                });
+
+                // Click support (alternative to drag)
+                drawer.addEventListener('click', () => {
+                    handleDrop(drawer);
+                });
+            });
+        }
+
+        // Handle Drop
+        function handleDrop(drawer) {
+            const card = document.getElementById('statementCard');
+            const correctCategory = card.dataset.category;
+            const droppedCategory = drawer.dataset.category;
+
+            if (correctCategory === droppedCategory) {
+                handleCorrectAnswer(drawer, card.textContent);
+            } else {
+                handleIncorrectAnswer(drawer);
+            }
+        }
+
+        // Handle Correct Answer
+        function handleCorrectAnswer(drawer, text) {
+            playSound('success');
+            drawer.classList.add('correct');
+            showFeedback('בול! 🎉', 'success');
+
+            // Add to drawer
+            const drawerItems = drawer.querySelector('.drawer-items');
+            const item = document.createElement('div');
+            item.className = 'drawer-item';
+            item.textContent = text;
+            drawerItems.appendChild(item);
+
+            // Update score
+            gameState.teams[gameState.currentTeamIndex].score += 5;
+            gameState.correctCount++;
+            gameState.completedStatements++;
+
+            setTimeout(() => {
+                drawer.classList.remove('correct');
+                nextTurn();
+            }, 800);
+        }
+
+        // Handle Incorrect Answer
+        function handleIncorrectAnswer(drawer) {
+            playSound('fail');
+            drawer.classList.add('incorrect');
+            document.getElementById('statementCard').classList.add('shake');
+            showFeedback('נסו שוב! ❌', 'error');
+
+            // Update score
+            gameState.teams[gameState.currentTeamIndex].score -= 2;
+            gameState.incorrectCount++;
+
+            setTimeout(() => {
+                drawer.classList.remove('incorrect');
+                document.getElementById('statementCard').classList.remove('shake');
+            }, 800);
+        }
+
+        // Show Feedback
+        function showFeedback(text, type) {
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-text ${type}`;
+            feedback.textContent = text;
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                feedback.remove();
+            }, 1000);
+        }
+
+        // Next Turn
+        function nextTurn() {
+            gameState.currentStatementIndex++;
+            
+            if (gameState.teams.length > 1) {
+                gameState.currentTeamIndex = (gameState.currentTeamIndex + 1) % gameState.teams.length;
+            }
+
+            updateScoreboard();
+            showNextStatement();
+            saveToLocalStorage();
+        }
+
+        // Play Sound
+        function playSound(type) {
+            if (!gameState.isMuted && sounds[type]) {
+                // Create simple beep sounds using Web Audio API
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                if (type === 'success') {
+                    oscillator.frequency.value = 800;
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } else {
+                    oscillator.frequency.value = 200;
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.3);
+                }
+            }
+        }
+
+        // Mute Toggle
+        document.getElementById('muteBtn').addEventListener('click', function() {
+            gameState.isMuted = !gameState.isMuted;
+            this.textContent = gameState.isMuted ? '🔇' : '🔊';
+            saveToLocalStorage();
+        });
+
+        // Show Results
+        function showResults() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            // Sort teams by score
+            const sortedTeams = [...gameState.teams].sort((a, b) => b.score - a.score);
+
+            // Show winner
+            const winner = document.getElementById('winner');
+            if (gameState.teams.length > 1) {
+                winner.textContent = `🏆 ${sortedTeams[0].name} ניצחו! 🏆`;
+            } else {
+                winner.textContent = `🎉 סיימת את המשחק! 🎉`;
+            }
+
+            // Show stats
+            document.getElementById('totalStatements').textContent = gameState.statements.length;
+            document.getElementById('correctAnswers').textContent = gameState.correctCount;
+            const successRate = Math.round((gameState.correctCount / (gameState.correctCount + gameState.incorrectCount)) * 100);
+            document.getElementById('successRate').textContent = successRate + '%';
+
+            // Show results table
+            const table = document.getElementById('resultsTable');
+            table.innerHTML = '';
+            sortedTeams.forEach((team, index) => {
+                const row = document.createElement('div');
+                row.className = 'result-row';
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🎯';
+                row.innerHTML = `<span>${medal} ${team.name}</span><span>${team.score} נקודות</span>`;
+                table.appendChild(row);
+            });
+
+            clearLocalStorage();
+        }
+
+        // Export Results
+        function exportResults() {
+            const sortedTeams = [...gameState.teams].sort((a, b) => b.score - a.score);
+            let csv = 'מקום,קבוצה,ניקוד\n';
+            sortedTeams.forEach((team, index) => {
+                csv += `${index + 1},${team.name},${team.score}\n`;
+            });
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'תוצאות_משחק_וויסות.csv';
+            link.click();
+        }
+
+        // Local Storage
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('regulationGame', JSON.stringify(gameState));
+            } catch (e) {
+                console.error('Error saving to localStorage:', e);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('regulationGame');
+                if (saved) {
+                    const state = JSON.parse(saved);
+                    // Only restore if game was in progress
+                    if (state.currentStatementIndex > 0 && state.currentStatementIndex < state.statements.length) {
+                        if (confirm('האם להמשיך את המשחק הקודם?')) {
+                            gameState = state;
+                            document.getElementById('splashScreen').classList.add('hidden');
+                            document.getElementById('gameScreen').classList.remove('hidden');
+                            updateScoreboard();
+                            showNextStatement();
+                            setupDragAndDrop();
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading from localStorage:', e);
+            }
+        }
+
+        function clearLocalStorage() {
+            try {
+                localStorage.removeItem('regulationGame');
+            } catch (e) {
+                console.error('Error clearing localStorage:', e);
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('gameScreen').classList.contains('hidden')) return;
+
+            const drawers = document.querySelectorAll('.drawer');
+            if (e.key === '1') handleDrop(drawers[0]);
+            else if (e.key === '2') handleDrop(drawers[1]);
+            else if (e.key === '3') handleDrop(drawers[2]);
+        });
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
